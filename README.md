@@ -13,7 +13,7 @@ Esta es una aplicación web construida con React que consume la [PokéAPI](https
 
 ## ✨ Funcionalidades Principales
 
-* **Grilla Responsiva:** Muestra una lista de 6 Pokémon por página, adaptándose a dispositivos móviles, tablets y escritorio.
+* **Responsive Grid:** Muestra una lista de 6 Pokémon por página, adaptándose a dispositivos móviles, tablets y escritorio.
 * **Paginación:** Navegación fluida entre páginas utilizando el estado global.
 * **Buscador Inteligente:** Permite buscar un Pokémon específico por su nombre exacto.
 * **Detalles Extendidos (Modal):** Al hacer clic en la tarjeta de un Pokémon, se despliega un modal con información detallada como sus tipos, peso, altura e imagen oficial.

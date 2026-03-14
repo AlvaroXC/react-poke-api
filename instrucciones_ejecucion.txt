@@ -8,7 +8,7 @@ Pasos a seguir:
 
 1. Clonar el repositorio:
 Abre tu terminal y ejecuta el siguiente comando:
-git clone https://github.com/AlvaroXC/react-poke-api
+git clone https://github.com/AlvaroXC/react-poke-api.git
 
 2. Navegar al directorio del proyecto:
 cd react-poke-api
