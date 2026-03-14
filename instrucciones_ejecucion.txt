@@ -1,0 +1,27 @@
+Instrucciones para ejecutar la aplicación localmente
+
+Requisitos previos:
+- Tener instalado Node.js (versión 18 o superior recomendada).
+- Tener instalado Git.
+
+Pasos a seguir:
+
+1. Clonar el repositorio:
+Abre tu terminal y ejecuta el siguiente comando:
+git clone https://github.com/AlvaroXC/react-poke-api
+
+2. Navegar al directorio del proyecto:
+cd react-poke-api
+
+3. Instalar las dependencias:
+Ejecuta el siguiente comando para instalar todas las librerías necesarias. 
+
+npm install 
+
+4. Levantar el servidor de desarrollo:
+Una vez finalizada la instalación, ejecuta:
+npm run dev
+
+5. Ver la aplicación:
+Abre tu navegador web y visita la dirección local que te proporcione la terminal:
+http://localhost:5173/
