@@ -3,7 +3,7 @@
 Esta es una aplicación web construida con React que consume la [PokéAPI](https://pokeapi.co/) para mostrar un catálogo de Pokémon. El proyecto fue desarrollado como parte de un examen técnico para la posición de Junior Developer.
 
 ## 📸 Vista Previa
-![Vista principal de la aplicación](https://drive.google.com/file/d/1Ub9jd_WVPqKlh-OWY886Zfkl2xATnNGZ/view?usp=drive_link)
+![Vista principal de la aplicación](./screenshots/desktop.png)
 
 ## 🛠️ Tecnologías Utilizadas
 
