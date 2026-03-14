@@ -1,120 +1,110 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import { useSelector, useDispatch } from "react-redux"
+import { useState } from "react";
+import { setPage, setSearchTerm } from "./store/pokemonSlice";
+import { usePokemons } from "./hooks/usePokemons"
+import PokemonCard from "./components/PokemonCard";
+import PokemonModal from "./components/PokemonModal";
 
 function App() {
-  const [count, setCount] = useState(0)
+
+  usePokemons()
+
+  const dispatch = useDispatch();
+  const { pokemons, isLoading, error, currentPage, searchTerm } = useSelector((state) => state.pokemon);
+
+  const [searchTermInput, setSearchTermInput] = useState('');
+
+  const [selectedPokemon, setSelectedPokemon] = useState(null);
+
+  const handleSearch = (e) => {
+    e.preventDefault(); 
+
+    dispatch(setSearchTerm(searchTermInput));
+    
+  };
+
+  const handleClear = () => {
+
+    setSearchTermInput('');
+
+    dispatch(setSearchTerm(''));
+  };
+
+
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
+    <div className="min-h-screen bg-gray-100 p-4 md:p-8 font-sans flex flex-col">
+      
+      <header className="mb-6">
+        <div className="bg-poke-blue text-white inline-block px-4 py-2 rounded-md font-bold shadow-md">
+          Alvaro Xool Canul
         </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
+      </header>
+
+      <section className="mb-8 flex justify-center">
+        <form onSubmit={handleSearch} className="flex w-full max-w-md gap-2">
+          <input
+            type="text"
+            placeholder="Buscar Pokémon..."
+            className="flex-1 border-2 border-poke-blue rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-poke-yellow"
+            value={searchTermInput}
+            onChange={(e) => setSearchTermInput(e.target.value)}
+          />
+
+          <button type="submit" className="bg-poke-red text-white px-4 py-2 rounded-md hover:bg-poke-dark-red transition-colors font-bold">
+            Buscar
+          </button>
+
+          {searchTerm && (
+            <button type="button" onClick={handleClear} className="bg-gray-400 text-white px-4 py-2 rounded-md hover:bg-gray-500 transition-colors font-bold">
+              Limpiar
+            </button>
+          )}
+        </form>
       </section>
 
-      <div className="ticks"></div>
+      <main className="flex-1">
+        {isLoading && <p className="text-center text-xl text-poke-blue font-bold animate-pulse">Cargando Pokémon...</p>}
+        {error && <p className="text-center text-xl text-poke-red font-bold">{error}</p>}
+        
+        {!isLoading && !error && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+            {pokemons.map((poke) => (
+              <PokemonCard key={poke.id} pokemon={poke} onClick={() => setSelectedPokemon(poke)} />
+            ))}
+          </div>
+        )}
+      </main>
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+      {!searchTerm && !isLoading && !error && (
+        <footer className="mt-8 flex justify-end">
+          <div className="flex items-center gap-4 bg-white p-2 border-2 border-poke-gold rounded-md shadow-sm">
+            <button 
+              disabled={currentPage === 1}
+              onClick={() => dispatch(setPage(currentPage - 1))}
+              className="px-4 py-2 bg-poke-yellow text-poke-blue font-bold rounded-md disabled:opacity-50 disabled:cursor-not-allowed hover:brightness-95 transition-all"
+            >
+              Anterior
+            </button>
+            <span className="font-bold text-poke-blue">Página {currentPage}</span>
+            <button 
+              onClick={() => dispatch(setPage(currentPage + 1))}
+              className="px-4 py-2 bg-poke-yellow text-poke-blue font-bold rounded-md hover:brightness-95 transition-all"
+            >
+              Siguiente
+            </button>
+          </div>
+        </footer>
+      )}
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
+      {selectedPokemon && (
+        <PokemonModal
+          pokemon={selectedPokemon}
+          onClose={ () => setSelectedPokemon(null)}
+        />
+      )}
+      
+    </div>
   )
 }
 
