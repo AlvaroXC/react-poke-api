@@ -3,6 +3,7 @@ import { useState } from "react";
 import { setPage, setSearchTerm } from "./store/pokemonSlice";
 import { usePokemons } from "./hooks/usePokemons"
 import PokemonCard from "./components/PokemonCard";
+import PokemonModal from "./components/PokemonModal";
 
 function App() {
 
@@ -12,6 +13,8 @@ function App() {
   const { pokemons, isLoading, error, currentPage, searchTerm } = useSelector((state) => state.pokemon);
 
   const [searchTermInput, setSearchTermInput] = useState('');
+
+  const [selectedPokemon, setSelectedPokemon] = useState(null);
 
   const handleSearch = (e) => {
     e.preventDefault(); 
@@ -23,7 +26,7 @@ function App() {
   const handleClear = () => {
 
     setSearchTermInput('');
-    
+
     dispatch(setSearchTerm(''));
   };
 
@@ -67,7 +70,7 @@ function App() {
         {!isLoading && !error && (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
             {pokemons.map((poke) => (
-              <PokemonCard key={poke.id} pokemon={poke} />
+              <PokemonCard key={poke.id} pokemon={poke} onClick={() => setSelectedPokemon(poke)} />
             ))}
           </div>
         )}
@@ -92,6 +95,13 @@ function App() {
             </button>
           </div>
         </footer>
+      )}
+
+      {selectedPokemon && (
+        <PokemonModal
+          pokemon={selectedPokemon}
+          onClose={ () => setSelectedPokemon(null)}
+        />
       )}
       
     </div>
